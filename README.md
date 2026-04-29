@@ -1,4 +1,4 @@
-# portfolio
+# Portfolio
 
 A static personal portfolio site (single-page HTML + images).
 
