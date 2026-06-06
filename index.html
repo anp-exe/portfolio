@@ -11,55 +11,6 @@
 <style>
 /* ─────────── tokens ─────────── */
 :root{
-/* ─────── Codédex badge/accolade styles ─────── */
-.codedex-badge{
-  display:inline-flex;
-  align-items:center;
-  gap:0.6rem;
-  text-decoration:none;
-  margin-bottom:1.2rem;
-  cursor:none;
-  transition:transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.codedex-badge:hover{ transform:translateY(-2px); }
-.codedex-badge-logo{
-  font-family:'VT323', 'Courier New', monospace;
-  font-size:1.4rem;
-  font-weight:bold;
-  color:#1d3557;
-  letter-spacing:0.02em;
-  line-height:1;
-}
-body.dark .codedex-badge-logo{ color:#fff; }
-.codedex-badge-pill{
-  font-family:'VT323', 'Courier New', monospace;
-  font-size:0.95rem;
-  color:#1d3557;
-  background:#ffe066;
-  padding:0.35rem 0.9rem;
-  border-radius:30px;
-  letter-spacing:0.06em;
-  text-transform:uppercase;
-  line-height:1;
-  box-shadow:0 3px 10px rgba(255, 224, 102, 0.5);
-  transition:box-shadow 0.3s, transform 0.3s;
-}
-.codedex-badge:hover .codedex-badge-pill{
-  box-shadow:0 6px 16px rgba(255, 224, 102, 0.7);
-  transform:scale(1.04);
-}
-.featured-accolade{
-  font-family:'Fraunces', serif;
-  font-style:italic;
-  font-size:1rem;
-  color:var(--pink-deep);
-  text-align:center;
-  margin:2rem 0 1.5rem;
-  padding:1rem 1.2rem;
-  background:linear-gradient(90deg, rgba(255, 224, 102, 0.15), rgba(233, 168, 184, 0.15));
-  border-radius:8px;
-  line-height:1.5;
-}
   --bg: #fbf2ef;
   --bg-2: #f7e6e8;
   --bg-3: #ece4f3;
@@ -110,6 +61,7 @@ body{
   background-attachment:fixed;
   min-height:100vh;
   overflow-x:hidden;
+  position:relative;
   cursor:none;
   transition:background 0.6s ease, color 0.6s ease;
 }
@@ -183,6 +135,125 @@ body.dark .cursor{mix-blend-mode:screen}
   pointer-events:none;
   z-index:0;
   overflow:hidden;
+}
+
+/* ─────────── boxed sticker strip (left edge, ) ─────────── */
+.sticker-scatter{
+  position:absolute;
+  top:0;
+  left:0;
+  width:96px;
+  height:100%;
+  pointer-events:none;
+  z-index:2;
+  background:rgba(248, 200, 208, 0.18);
+  backdrop-filter:blur(2px);
+  -webkit-backdrop-filter:blur(2px);
+  border-right:1px solid rgba(217, 122, 144, 0.25);
+  padding-top:120px;
+}
+.sticker-scatter::after{
+  content:'STICKERS';
+  position:absolute;
+  top:96px;
+  left:0;
+  right:0;
+  text-align:center;
+  font-family:'Quicksand', sans-serif;
+  font-size:0.65rem;
+  letter-spacing:0.32em;
+  color:var(--pink-deep);
+  font-weight:600;
+  pointer-events:none;
+}
+.sticker-scatter::before{
+  content:'drag & drop me ♡ click to reset';
+  position:fixed;
+  left:110px;
+  top:50%;
+  transform:translateY(-50%) translateX(-10px);
+  font-family:'Italianno', cursive;
+  font-size:1.6rem;
+  color:var(--pink-deep);
+  white-space:nowrap;
+  opacity:0;
+  transition:opacity 0.5s, transform 0.5s;
+  pointer-events:none;
+  z-index:81;
+  text-shadow:0 2px 8px rgba(255,255,255,0.8);
+}
+.sticker-scatter:hover::before{
+  opacity:1;
+  transform:translateY(-50%) translateX(0);
+}
+.sticker{
+  position:absolute;
+  top:var(--top, 50vh);
+  left:50%;
+  width:var(--size, 60px);
+  height:var(--size, 60px);
+  margin-left:calc(var(--size, 60px) / -2);
+  pointer-events:auto;
+  cursor:none;
+  filter:drop-shadow(0 4px 10px rgba(217, 122, 144, 0.25));
+  transform:rotate(var(--rot, 0deg)) scale(1);
+  transition:transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s;
+  opacity:0;
+  user-select:none;
+  touch-action:none;
+}
+.sticker.in-view{
+  animation:stickerReveal 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+.sticker.faded-out{
+  opacity:0 !important;
+  pointer-events:none;
+  transition:opacity 0.6s ease;
+}
+@keyframes stickerReveal{
+  0%{opacity:0;transform:translateX(-30px) rotate(calc(var(--rot, 0deg) - 20deg)) scale(0.4)}
+  60%{opacity:1;transform:translateX(0) rotate(calc(var(--rot, 0deg) + 5deg)) scale(1.1)}
+  100%{opacity:1;transform:translateX(0) rotate(var(--rot, 0deg)) scale(1)}
+}
+.sticker img, .sticker svg{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:contain;
+  pointer-events:none;
+}
+.sticker:hover{
+  filter:drop-shadow(0 10px 18px rgba(217, 122, 144, 0.55));
+  transform:rotate(calc(var(--rot, 0deg) - 4deg)) scale(1.2);
+}
+.sticker.moved{
+  cursor:none;
+}
+.sticker.moved::after{
+  content:'↺';
+  position:absolute;
+  top:-8px;
+  right:-8px;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:var(--pink-deep);
+  color:var(--cream);
+  font-size:11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  transition:opacity 0.3s;
+  pointer-events:none;
+}
+.sticker.moved:hover::after{
+  opacity:1;
+}
+.sticker.dragging{
+  transition:none;
+  filter:drop-shadow(0 16px 28px rgba(217, 122, 144, 0.6));
+  z-index:100;
 }
 .ambient span{
   position:absolute;
@@ -475,6 +546,13 @@ section{
   margin-top:0.5rem;
 }
 .polaroid-secondary .polaroid-cap{font-size:1.3rem}
+.polaroid-cap-hobbies{
+  font-size:1.15rem !important;
+  line-height:1.3;
+  max-width:240px;
+  margin-left:auto;
+  margin-right:auto;
+}
 
 .about-text p{
   font-family:'Cormorant Garamond', serif;
@@ -590,6 +668,46 @@ section{
   border-left:1px dashed rgba(255,255,255,0.3);
   border-right:1px dashed rgba(255,255,255,0.3);
 }
+/* ─── codedex staff pick badge ─── */
+.codedex-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:0.6rem;
+  text-decoration:none;
+  margin-bottom:1.2rem;
+  cursor:none;
+  transition:transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.codedex-badge:hover{
+  transform:translateY(-2px);
+}
+.codedex-badge-logo{
+  font-family:'VT323', 'Courier New', monospace;
+  font-size:1.4rem;
+  font-weight:bold;
+  color:#1d3557;
+  letter-spacing:0.02em;
+  line-height:1;
+}
+body.dark .codedex-badge-logo{color:#fff}
+.codedex-badge-pill{
+  font-family:'VT323', 'Courier New', monospace;
+  font-size:0.95rem;
+  color:#1d3557;
+  background:#ffe066;
+  padding:0.35rem 0.9rem;
+  border-radius:30px;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  line-height:1;
+  box-shadow:0 3px 10px rgba(255, 224, 102, 0.5);
+  transition:box-shadow 0.3s, transform 0.3s;
+}
+.codedex-badge:hover .codedex-badge-pill{
+  box-shadow:0 6px 16px rgba(255, 224, 102, 0.7);
+  transform:scale(1.04);
+}
+
 .featured-eyebrow{
   font-family:'Quicksand', sans-serif;
   font-size:0.65rem;
@@ -686,6 +804,19 @@ section{
   border-radius:20px;
   border:1px solid rgba(233, 168, 184, 0.35);
 }
+.featured-accolade{
+  font-family:'Fraunces', serif;
+  font-style:italic;
+  font-size:1rem;
+  color:var(--pink-deep);
+  text-align:center;
+  margin:2rem 0 1.5rem;
+  padding:1rem 1.2rem;
+  background:linear-gradient(90deg, rgba(255, 224, 102, 0.15), rgba(233, 168, 184, 0.15));
+  border-radius:8px;
+  line-height:1.5;
+}
+
 .featured-cta{
   display:flex;
   gap:1.5rem;
@@ -786,6 +917,12 @@ section{
   background:linear-gradient(135deg, rgba(185, 201, 168, 0.4), rgba(244, 196, 163, 0.4));
   border-radius:8px;
   flex-shrink:0;
+  overflow:hidden;
+}
+.mini-card-img img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 .mini-card-alt .mini-card-img{
   background:linear-gradient(135deg, rgba(196, 179, 224, 0.4), rgba(178, 165, 221, 0.35));
@@ -917,6 +1054,59 @@ section{
   border-color:var(--pink);
 }
 
+/* ─── featured AWS badge ─── */
+.aws-badge{
+  display:flex;
+  align-items:center;
+  gap:1.6rem;
+  margin:1.5rem 0 1.8rem;
+  text-decoration:none;
+  cursor:none;
+  transition:transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.aws-badge:hover{
+  transform:translateY(-3px);
+}
+.aws-badge img{
+  width:230px;
+  height:230px;
+  flex-shrink:0;
+  object-fit:contain;
+  filter:drop-shadow(0 8px 22px rgba(217, 122, 144, 0.3));
+  transition:filter 0.4s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.aws-badge:hover img{
+  filter:drop-shadow(0 14px 32px rgba(217, 122, 144, 0.45));
+  transform:rotate(-4deg) scale(1.05);
+}
+.aws-badge-text{flex:1;min-width:0}
+.aws-badge-title{
+  font-family:'Fraunces', serif;
+  font-style:italic;
+  font-size:1.6rem;
+  color:var(--ink);
+  margin-bottom:0.3rem;
+}
+.aws-badge-meta{
+  font-family:'Quicksand', sans-serif;
+  font-size:0.78rem;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  margin-bottom:0.7rem;
+}
+.aws-badge-link{
+  font-family:'Fraunces', serif;
+  font-style:italic;
+  font-size:1.05rem;
+  color:var(--pink-deep);
+  transition:transform 0.3s;
+  display:inline-block;
+}
+.aws-badge:hover .aws-badge-link{
+  transform:translateX(6px);
+}
+
 /* ─────────── contact ─────────── */
 .contact{
   text-align:center;
@@ -928,76 +1118,109 @@ section{
   font-weight:300;
   font-size:1.3rem;
   color:var(--ink);
-  margin:1rem auto 3rem;
+  margin:1rem auto 3.5rem;
   max-width:480px;
   line-height:1.6;
 }
-.contact-links{
+
+/* ─── scrapbook tape-style contact cards ─── */
+.contact-scrapbook{
   display:flex;
-  justify-content:center;
-  gap:2.5rem;
   flex-wrap:wrap;
-  list-style:none;
-  margin-top:1rem;
-}
-.social-btn{
-  display:inline-flex;
-  align-items:center;
   justify-content:center;
-  width:74px;
-  height:74px;
-  border-radius:50%;
-  background:var(--cream);
-  color:var(--pink-deep);
-  border:1px solid var(--line);
+  align-items:flex-start;
+  gap:3.5rem 4rem;
+  max-width:900px;
+  margin:1rem auto 0;
+}
+.contact-tape{
+  display:flex;
+  align-items:center;
+  gap:1.3rem;
+  width:380px;
+  max-width:100%;
+  padding:1.5rem 1.8rem;
   text-decoration:none;
-  transition:transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.4s, color 0.4s, box-shadow 0.4s;
-  box-shadow:var(--shadow);
+  color:inherit;
   cursor:none;
   position:relative;
+  transition:transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s;
+  box-shadow:0 8px 22px rgba(93, 63, 78, 0.22);
+  /* torn-paper edges */
+  clip-path:polygon(
+    0% 6%, 6% 0%, 13% 8%, 21% 1%, 30% 7%, 39% 2%, 48% 8%, 57% 1%, 66% 7%,
+    75% 2%, 84% 8%, 92% 2%, 100% 7%,
+    100% 93%, 93% 100%, 85% 92%, 76% 99%, 67% 92%, 58% 99%, 49% 92%, 40% 99%,
+    31% 92%, 22% 99%, 13% 92%, 6% 100%, 0% 94%
+  );
 }
-.social-btn::after{
+/* washi tape strip holding each card */
+.contact-tape::before{
   content:'';
   position:absolute;
-  inset:-6px;
-  border-radius:50%;
-  border:1px dashed var(--pink);
-  opacity:0;
-  transition:opacity 0.4s, transform 0.4s;
-  transform:scale(0.9);
-}
-.social-btn svg{
-  width:30px;
-  height:30px;
-  transition:transform 0.4s;
-}
-.social-btn:hover{
-  transform:translateY(-8px);
-  background:var(--pink);
-  color:var(--cream);
-  box-shadow:0 0 28px rgba(233, 168, 184, 0.55), 0 14px 30px rgba(217, 122, 144, 0.3);
-}
-.social-btn:hover::after{
-  opacity:0.7;
-  transform:scale(1) rotate(45deg);
-}
-.social-btn:hover svg{transform:scale(1.15)}
-.social-tooltip{
-  position:absolute;
-  bottom:-32px;
+  top:-14px;
   left:50%;
-  transform:translateX(-50%);
-  font-family:'Italianno', cursive;
-  font-size:1.4rem;
-  color:var(--pink-deep);
-  opacity:0;
-  transition:opacity 0.4s, bottom 0.4s;
-  pointer-events:none;
-  white-space:nowrap;
+  transform:translateX(-50%) rotate(-3deg);
+  width:80px;
+  height:26px;
+  background:rgba(255, 248, 243, 0.55);
+  border-left:1px dashed rgba(255,255,255,0.6);
+  border-right:1px dashed rgba(255,255,255,0.6);
+  box-shadow:0 2px 6px rgba(0,0,0,0.08);
+  z-index:3;
 }
-.social-btn:hover .social-tooltip{
-  opacity:1;
-  bottom:-44px;
+.contact-tape:nth-child(1){transform:rotate(-1.5deg)}
+.contact-tape:nth-child(2){transform:rotate(1.5deg)}
+.contact-tape:nth-child(1)::before{transform:translateX(-50%) rotate(-4deg)}
+.contact-tape:nth-child(2)::before{transform:translateX(-50%) rotate(5deg)}
+.contact-tape:hover{
+  transform:translateY(-8px) rotate(0deg) scale(1.03);
+  box-shadow:0 18px 38px rgba(93, 63, 78, 0.32);
+}
+.contact-tape.tape-blue{
+  background:linear-gradient(135deg, #2a73c2 0%, #155fa8 100%);
+  color:#fff;
+}
+.contact-tape.tape-cream{
+  background:linear-gradient(135deg, #3a3a3f 0%, #232327 100%);
+  color:#fff;
+}
+.contact-icon{
+  width:52px;
+  height:52px;
+  flex-shrink:0;
+  background:#fff;
+  border-radius:12px;
+  padding:9px;
+  box-shadow:0 3px 10px rgba(0,0,0,0.18);
+}
+.contact-tape-text{
+  flex:1;
+  min-width:0;
+  text-align:left;
+}
+.contact-tape-label{
+  font-family:'Quicksand', sans-serif;
+  font-weight:600;
+  font-size:0.72rem;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  margin-bottom:0.25rem;
+  opacity:0.9;
+}
+.contact-tape-handle{
+  font-family:'Fraunces', serif;
+  font-style:italic;
+  font-weight:600;
+  font-size:1.35rem;
+  line-height:1.2;
+  margin-bottom:0.25rem;
+}
+.contact-tape-tag{
+  font-family:'Fraunces', serif;
+  font-style:italic;
+  font-size:0.98rem;
+  opacity:0.88;
 }
 
 /* ─────────── footer ─────────── */
@@ -1238,7 +1461,7 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
 .bouquet-toggle{
   position:fixed;
   bottom:1.6rem;
-  left:1.6rem;
+  left:112px;
   width:54px;
   height:54px;
   border-radius:50%;
@@ -1248,17 +1471,20 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:1.6rem;
   cursor:none;
   z-index:90;
   transition:transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s, background 0.4s;
   animation:bouquetBob 3s ease-in-out infinite;
   padding:0;
+  overflow:hidden;
 }
-.bouquet-toggle svg{
-  width:30px;
-  height:30px;
+.bouquet-toggle img{
+  width:38px;
+  height:38px;
   display:block;
+  object-fit:contain;
+  object-position:center;
+  pointer-events:none;
 }
 .bouquet-toggle:hover{
   transform:scale(1.12);
@@ -1389,6 +1615,7 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
   section{padding:5rem 1.5rem}
 }
 @media (max-width: 600px){
+  .sticker-scatter{display:none}
   .nav-logo{font-size:1.6rem}
   .nav-links li:not(:last-child){display:none}
   .featured-stats{grid-template-columns:1fr 1fr}
@@ -1417,6 +1644,8 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
 <!-- ambient floating sparkles -->
 <div class="ambient" aria-hidden="true"></div>
 
+<!-- scroll-scattered stickers down the left edge of the page -->
+<div class="sticker-scatter" aria-hidden="true"></div>
 <!-- nav -->
 <nav>
   <div class="nav-logo">Anna</div>
@@ -1454,12 +1683,13 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
     </div>
     <div class="polaroid polaroid-secondary">
       <div class="polaroid-img" style="background-image:url('images/anna-horse.jpg')"></div>
+      <p class="polaroid-cap polaroid-cap-hobbies">Hobbies: gym, competitive chess, exploring new places ♡</p>
     </div>
   </div>
   <div class="about-text">
     <p class="eyebrow">⋆ welcome ⋆</p>
     <h2 class="section-title">I'm <em>Anna</em></h2>
-    <p>I'm an AI student at KCL. I've mainly done data science work in Python but I love trying new things. Outside of academia: chess, reading, and the gym.</p>
+    <p>AI &amp; Philosophy student at King's College London, with a background in robotics, data science, and machine learning. I like building things that make data tell a story. Outside of studies I'm a competitive chess player and volunteer with the London Women's Chess Club.</p>
     <ul class="currently">
       <li class="currently-label">⋆ currently ⋆</li>
       <li><span>studying</span><em>BSc AI &amp; Philosophy @ King's</em></li>
@@ -1514,6 +1744,7 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
     <blockquote class="featured-quote">
       the show worked. it just turned new fans into online players, not tournament competitors. FIDE could not see the boom because the boom happened somewhere else.
     </blockquote>
+
     <p class="featured-accolade">✦ The site gathered thousands of views worldwide, and I was invited to give a talk on it to a London-based chess club. ✦</p>
 
     <div class="featured-tools">
@@ -1534,7 +1765,7 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
     <p class="more-projects-label">⋆ also recently</p>
     <div class="mini-grid">
       <a class="mini-card" href="https://github.com/anp-exe/blog_generator" target="_blank" rel="noopener">
-        <div class="mini-card-img">🐍</div>
+        <div class="mini-card-img"><img src="images/blog-generator.png" alt="" /></div>
         <div class="mini-card-body">
           <p class="cred-meta">Python &middot; OpenAI</p>
           <h3 class="mini-card-title">blog generator</h3>
@@ -1543,7 +1774,7 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
         </div>
       </a>
       <a class="mini-card mini-card-alt" href="https://github.com/anp-exe/WindEnergyProject" target="_blank" rel="noopener">
-        <div class="mini-card-img">🌬️</div>
+        <div class="mini-card-img"><img src="images/wind-energy.png" alt="" /></div>
         <div class="mini-card-body">
           <p class="cred-meta">MATLAB &middot; Engineering</p>
           <h3 class="mini-card-title">wind energy</h3>
@@ -1580,6 +1811,15 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
         <p class="cred-title">45/45 distinctions 🏆</p>
         <p class="cred-detail">equivalent to <strong>A-Level Maths, Physics &amp; Chemistry at AAA</strong>. A full distinction profile, achieved by under 16% of students who completed the course.</p>
       </div>
+
+      <a class="aws-badge" href="https://www.credly.com/badges/f2462771-efa4-4541-ac13-a0cec2dcbae7/linked_in_profile" target="_blank" rel="noopener" aria-label="View AWS Certified AI Practitioner badge on Credly">
+        <img src="https://images.credly.com/images/4d4693bb-530e-4bca-9327-de07f3aa2348/linkedin_thumb_image.png" alt="AWS Certified AI Practitioner" />
+        <div class="aws-badge-text">
+          <p class="aws-badge-title">AWS Certified AI Practitioner</p>
+          <p class="aws-badge-meta">Amazon Web Services &middot; 2026</p>
+          <p class="aws-badge-link">view on Credly →</p>
+        </div>
+      </a>
     </div>
 
     <div class="cred-col">
@@ -1587,15 +1827,21 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
       <div class="cred-item">
         <p class="cred-meta">2025</p>
         <p class="cred-title">Junior Engineer</p>
-        <p class="cred-detail"><strong>Team Bath Racing Electric</strong></p>
+        <p class="cred-detail"><strong>Team Bath Racing Electric</strong> working with LiDAR sensor data</p>
+      </div>
+      <div class="cred-item">
+        <p class="cred-meta">Apr 2026 to present</p>
+        <p class="cred-title">Website &amp; Communications Director</p>
+        <p class="cred-detail"><strong>London Women's Chess Club</strong> led the full website redesign for an ECF award-winning community.</p>
       </div>
       <div class="cred-item">
         <p class="cred-meta">2024 to 2025</p>
-        <p class="cred-title">Volunteer</p>
-        <p class="cred-detail"><strong>Code Club</strong> teaching kids to build things on the internet ♡</p>
+        <p class="cred-title">Volunteer Mentor</p>
+        <p class="cred-detail"><strong>Code Club</strong> teaching coding to children aged 7 to 12 ♡</p>
       </div>
 
       <h3 style="margin-top:2.5rem">certifications ✿</h3>
+
       <div class="certs-list">
         <span class="cert-chip">Associate Data Scientist</span>
         <span class="cert-chip">Data Analyst</span>
@@ -1675,20 +1921,26 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
   <p class="eyebrow">⋆ get in touch</p>
   <h2 class="section-title">say <em>hello</em></h2>
   <p class="contact-tagline">let's connect ✦</p>
-  <ul class="contact-links">
-    <li>
-      <a class="social-btn" href="https://www.linkedin.com/in/annaparker2005/" target="_blank" rel="noopener" aria-label="LinkedIn">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-        <span class="social-tooltip">linkedin ♡</span>
-      </a>
-    </li>
-    <li>
-      <a class="social-btn" href="https://github.com/anp-exe" target="_blank" rel="noopener" aria-label="GitHub">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-        <span class="social-tooltip">github ♡</span>
-      </a>
-    </li>
-  </ul>
+
+  <div class="contact-scrapbook">
+    <a class="contact-tape tape-blue" href="https://www.linkedin.com/in/annaparker2005/" target="_blank" rel="noopener">
+      <svg class="contact-icon" viewBox="0 0 24 24" fill="#0077b5" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+      <div class="contact-tape-text">
+        <p class="contact-tape-label">LINKEDIN</p>
+        <p class="contact-tape-handle">Anna Parker</p>
+        <p class="contact-tape-tag">let's build something together.</p>
+      </div>
+    </a>
+
+    <a class="contact-tape tape-cream" href="https://github.com/anp-exe" target="_blank" rel="noopener">
+      <svg class="contact-icon" viewBox="0 0 24 24" fill="#1a1a1a" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+      <div class="contact-tape-text">
+        <p class="contact-tape-label">GITHUB</p>
+        <p class="contact-tape-handle">~/anp-exe</p>
+        <p class="contact-tape-tag">$ git connect --me</p>
+      </div>
+    </a>
+  </div>
 </section>
 
 <footer>
@@ -1696,23 +1948,8 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
 </footer>
 
 <!-- floating chess easter egg toggle -->
-<button class="chess-toggle" aria-label="Click for chess pieces">♛</button>
+<button class="chess-toggle" aria-label="Click for chess pieces">♟️</button>
 
-<!-- floating build-a-bouquet toggle -->
-<button class="bouquet-toggle" aria-label="Build a bouquet" title="Jump to bouquet builder">
-  <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <g transform="translate(16 16)">
-      <!-- 5 round soft petals -->
-      <circle cx="0" cy="-8" r="5.5" fill="#f8c8d0"/>
-      <circle cx="7.6" cy="-2.5" r="5.5" fill="#f8c8d0"/>
-      <circle cx="4.7" cy="6.5" r="5.5" fill="#f8c8d0"/>
-      <circle cx="-4.7" cy="6.5" r="5.5" fill="#f8c8d0"/>
-      <circle cx="-7.6" cy="-2.5" r="5.5" fill="#f8c8d0"/>
-      <!-- gold center -->
-      <circle cx="0" cy="0" r="3.2" fill="#f5d097"/>
-    </g>
-  </svg>
-</button>
 
 <script>
 /* ─────── ambient sparkles ─────── */
@@ -1763,10 +2000,22 @@ const obs = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if(entry.isIntersecting){
       entry.target.classList.add('in-view');
+      // for stickers: also un-fade when re-entering
+      if(entry.target.classList.contains('sticker')){
+        entry.target.classList.remove('faded-out');
+      }
+    } else if(entry.target.classList.contains('sticker') && entry.target.classList.contains('in-view')){
+      // stickers fade out when leaving viewport (but only AFTER first reveal)
+      // skip if the sticker has been moved (dragged) so it stays where user put it
+      if(!entry.target.dataset.moved){
+        entry.target.classList.add('faded-out');
+      }
     }
   });
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => obs.observe(el));
+// stickers observed after they're populated (see below)
+window.__stickerObserver = obs;
 
 /* ─────── easter egg: type "chess" ─────── */
 let _eggBuf = '';
@@ -1825,20 +2074,205 @@ document.querySelector('.chess-toggle').addEventListener('click', triggerChessEg
   });
 })();
 
+/* ─────── populate sticker strip - loops down the whole page ─────── */
+(function populateStickers(){
+  const scatter = document.querySelector('.sticker-scatter');
+  if(!scatter) return;
+
+  // sticker pool with each one's rotation + size
+  const pool = [
+    { name: 'satin-bow',       rot: -6,  size: 62 },
+    { name: 'bunny-plush',     rot: -5,  size: 64 },
+    { name: 'butterfly',       rot: 8,   size: 58 },
+    { name: 'lily',            rot: -12, size: 56 },
+    { name: 'iced-coffee',     rot: -7,  size: 62 },
+    { name: 'cupcake',         rot: 9,   size: 56 },
+    { name: 'watercolor-bow',  rot: -12, size: 64 },
+    { name: 'tulips',          rot: -6,  size: 62 },
+    { name: 'books',           rot: 7,   size: 58 },
+    { name: 'basket',          rot: -11, size: 62 },
+    { name: 'strawberries',    rot: 8,   size: 56 },
+    { name: 'uggs',            rot: -9,  size: 64 },
+  ];
+
+  function build(){
+    // clear and rebuild
+    scatter.innerHTML = '';
+
+    // figure out how tall the page is - need stickers all the way down
+    // use document height (computed without the strip itself for a stable measurement)
+    const docHeight = Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+      document.documentElement.clientHeight
+    );
+    const vh = window.innerHeight;
+    const totalVh = (docHeight / vh) * 100;
+
+    // start below nav (14vh) and end before footer (~totalVh - 6vh)
+    const startVh = 14;
+    const endVh = Math.max(totalVh - 6, startVh + 50);
+    const spacing = 9;  // 9vh between each sticker
+    const count = Math.floor((endVh - startVh) / spacing);
+
+    for(let i = 0; i < count; i++){
+      const sticker = pool[i % pool.length];
+      const top = startVh + i * spacing;
+      const div = document.createElement('div');
+      div.className = 'sticker';
+      div.style.setProperty('--top', top + 'vh');
+      div.style.setProperty('--rot', sticker.rot + 'deg');
+      div.style.setProperty('--size', sticker.size + 'px');
+      div.innerHTML = `<img src="images/sticker-${sticker.name}.png" alt="" draggable="false" />`;
+      scatter.appendChild(div);
+    }
+
+    // observe new stickers for reveal animations
+    if(window.__stickerObserver){
+      scatter.querySelectorAll('.sticker').forEach(s => window.__stickerObserver.observe(s));
+    }
+    // re-bind drag handlers if setupStickers ran already
+    if(window.__bindStickerDrag){
+      scatter.querySelectorAll('.sticker').forEach(s => window.__bindStickerDrag(s));
+    }
+  }
+
+  build();
+  // rebuild if window resizes (since page height changes)
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(build, 250);
+  });
+
+  // expose build for re-init after drag setup if needed
+  window.__rebuildStickers = build;
+})();
+
+/* ─────── draggable stickers with click-to-reset ─────── */
+(function setupStickers(){
+  let dragging = null;
+  let dragOffset = {x:0, y:0};
+  let dragMoved = false;
+  let pressStart = null;
+
+  function bindSticker(sticker){
+    if(sticker.dataset.bound) return;
+    sticker.dataset.bound = '1';
+    sticker.dataset.originalParent = 'sticker-scatter';
+    sticker.dataset.originalTop = sticker.style.getPropertyValue('--top');
+    sticker.dataset.originalRot = sticker.style.getPropertyValue('--rot');
+    sticker.dataset.originalSize = sticker.style.getPropertyValue('--size');
+
+    sticker.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      dragging = sticker;
+      dragMoved = false;
+      pressStart = { x: e.clientX, y: e.clientY };
+      const rect = sticker.getBoundingClientRect();
+      dragOffset.x = e.clientX - rect.left;
+      dragOffset.y = e.clientY - rect.top;
+      sticker.setPointerCapture(e.pointerId);
+    });
+
+    sticker.addEventListener('mouseenter', () => {
+      const c = document.querySelector('.cursor');
+      if(c) c.classList.add('hover');
+    });
+    sticker.addEventListener('mouseleave', () => {
+      const c = document.querySelector('.cursor');
+      if(c) c.classList.remove('hover');
+    });
+  }
+
+  // expose for the populate function to use
+  window.__bindStickerDrag = bindSticker;
+
+  // bind any stickers already in the DOM
+  document.querySelectorAll('.sticker').forEach(bindSticker);
+
+  document.addEventListener('pointermove', (e) => {
+    if(!dragging) return;
+    // only start dragging after >4px movement (lets us distinguish click vs drag)
+    if(!dragMoved){
+      const dx = e.clientX - pressStart.x;
+      const dy = e.clientY - pressStart.y;
+      if(Math.sqrt(dx*dx + dy*dy) < 4) return;
+      dragMoved = true;
+      dragging.classList.add('dragging');
+
+      // promote sticker to absolute positioning on the body so it sticks to the page
+      if(!dragging.dataset.moved){
+        const rect = dragging.getBoundingClientRect();
+        const scrollY = window.scrollY || window.pageYOffset;
+        const scrollX = window.scrollX || window.pageXOffset;
+        document.body.appendChild(dragging);
+        dragging.style.position = 'absolute';
+        dragging.style.top = (rect.top + scrollY) + 'px';
+        dragging.style.left = (rect.left + scrollX) + 'px';
+        dragging.style.margin = '0';
+        dragging.style.zIndex = '50';
+        dragging.dataset.moved = '1';
+        dragging.classList.add('moved');
+      }
+    }
+
+    if(dragMoved){
+      const scrollY = window.scrollY || window.pageYOffset;
+      const scrollX = window.scrollX || window.pageXOffset;
+      dragging.style.left = (e.clientX - dragOffset.x + scrollX) + 'px';
+      dragging.style.top = (e.clientY - dragOffset.y + scrollY) + 'px';
+    }
+  });
+
+  document.addEventListener('pointerup', () => {
+    if(!dragging) return;
+    const sticker = dragging;
+    dragging.classList.remove('dragging');
+
+    // if it was a CLICK (no drag) AND the sticker has been moved, RESET it
+    if(!dragMoved && sticker.dataset.moved){
+      resetSticker(sticker);
+    }
+
+    dragging = null;
+    dragMoved = false;
+  });
+
+  function resetSticker(sticker){
+    // animate back to home
+    sticker.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), top 0.6s ease, left 0.6s ease, opacity 0.4s';
+    sticker.classList.remove('moved');
+    delete sticker.dataset.moved;
+
+    // put it back in the scatter container with original CSS vars
+    const scatter = document.querySelector('.sticker-scatter');
+    scatter.appendChild(sticker);
+    sticker.style.position = '';
+    sticker.style.top = '';
+    sticker.style.left = '';
+    sticker.style.margin = '';
+    sticker.style.zIndex = '';
+    sticker.style.transform = '';
+
+    // restore the CSS variables
+    sticker.style.setProperty('--top', sticker.dataset.originalTop);
+    sticker.style.setProperty('--rot', sticker.dataset.originalRot);
+    sticker.style.setProperty('--size', sticker.dataset.originalSize);
+
+    // clear the inline transition after the animation
+    setTimeout(() => { sticker.style.transition = ''; }, 700);
+  }
+})();
+
 /* ─────── build-a-bouquet ─────── */
 (function setupBouquet(){
-  const toggle = document.querySelector('.bouquet-toggle');
   const palette = document.getElementById('bouquet-palette');
   const canvas = document.getElementById('bouquet-canvas');
   const flowersEl = document.getElementById('bouquet-flowers');
   const countEl = document.getElementById('bouquet-count');
   const clearBtn = document.getElementById('bouquet-clear');
   if(!palette || !canvas) return;
-
-  // floating button → scroll to the bouquet section
-  toggle.addEventListener('click', () => {
-    document.getElementById('bouquet').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
 
   const types = ['daisy','tulip','rose','poppy','sun','bud'];
   const hues = [0, 1, 2, 3];  // 4 color variants per type = 24 palette flowers
