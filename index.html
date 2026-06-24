@@ -63,6 +63,7 @@ body{
   overflow-x:hidden;
   position:relative;
   cursor:none;
+  padding-left:96px;
   transition:background 0.6s ease, color 0.6s ease;
 }
 body.dark{
@@ -394,7 +395,7 @@ body.dark nav{background:rgba(31, 24, 48, 0.4)}
 section{
   position:relative;
   z-index:2;
-  padding:7rem 2rem;
+  padding:5rem 2rem;
   max-width:1200px;
   margin:0 auto;
 }
@@ -509,6 +510,20 @@ section{
   width:200px;
   transform:rotate(8deg);
   padding:0.8rem 0.8rem 1rem;
+}
+.polaroid-tertiary{
+  position:absolute;
+  z-index:0;
+  bottom:-34px;
+  left:-44px;
+  width:180px;
+  transform:rotate(-11deg);
+  padding:0.8rem 0.8rem 1rem;
+}
+.polaroid-tertiary:hover{
+  transform:rotate(-5deg) scale(1.05);
+  z-index:3;
+  box-shadow:0 18px 40px -10px rgba(217, 122, 144, 0.35);
 }
 .polaroid-main:hover{
   transform:rotate(-2deg) scale(1.04);
@@ -1267,6 +1282,52 @@ body.dark .codedex-badge-logo{color:#fff}
   color:#e1664c;
 }
 
+/* ─────────── hobbies ─────────── */
+.hobbies{
+  padding:7rem 2rem;
+  max-width:1200px;
+  margin:0 auto;
+  text-align:center;
+  position:relative;
+}
+.hobbies-header{margin-bottom:3rem}
+.hobbies-row{
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  flex-wrap:wrap;
+  gap:1.1rem;
+}
+.hobby-card{
+  width:186px;
+  margin:0;
+}
+.hobby-card:nth-child(odd){transform:rotate(-3deg)}
+.hobby-card:nth-child(even){transform:rotate(2.5deg)}
+.hobby-card:hover{transform:rotate(0deg) translateY(-6px) scale(1.03);z-index:3}
+.hobby-detail{
+  font-family:'Quicksand', sans-serif;
+  font-size:0.68rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  text-align:center;
+  margin-top:0.25rem;
+}
+.hobby-blank{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.hobby-blank span{
+  font-family:'Quicksand', sans-serif;
+  font-size:0.68rem;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--pink-deep);
+  opacity:0.55;
+}
+
 /* ─────────── contact ─────────── */
 .contact{
   text-align:center;
@@ -1777,6 +1838,7 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
   section{padding:5rem 1.5rem}
 }
 @media (max-width: 600px){
+  body{padding-left:0}
   .sticker-scatter{display:none}
   .nav-logo{font-size:1.6rem}
   .nav-links li:not(:last-child){display:none}
@@ -1787,6 +1849,7 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
   .mini-card-img{width:64px;height:64px;font-size:1.8rem}
   .polaroid-main{width:240px}
   .polaroid-secondary{width:170px;left:auto;right:-20px;top:160px}
+  .polaroid-tertiary{width:140px;left:-8px;bottom:-18px}
   .chess-toggle{top:1rem;right:1rem;width:48px;height:48px;font-size:1.4rem}
   .chess-toggle::before{display:none}
   .bouquet-toggle{bottom:1rem;left:1rem;width:48px;height:48px;font-size:1.4rem}
@@ -1840,6 +1903,10 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
       <div class="polaroid polaroid-secondary">
         <div class="polaroid-img" style="background-image:url('images/anna-horse.jpg')"></div>
         <p class="polaroid-cap polaroid-cap-hobbies">♡</p>
+      </div>
+      <div class="polaroid polaroid-tertiary">
+        <div class="polaroid-img" style="background-image:url('images/robotics-circuit.jpg')"></div>
+        <p class="polaroid-cap polaroid-cap-hobbies">robotics @ Bath</p>
       </div>
     </div>
     <div class="about-headline">
@@ -2115,6 +2182,41 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
       </div>
     </div>
 
+  </div>
+</section>
+
+<!-- hobbies -->
+<section class="hobbies reveal" id="hobbies">
+  <div class="hobbies-header">
+    <p class="eyebrow">⋆ off the clock</p>
+    <h2 class="section-title">my <em>hobbies</em></h2>
+  </div>
+  <div class="hobbies-row">
+    <div class="polaroid hobby-card">
+      <div class="polaroid-img" style="background-image:url('images/hobby-painting.jpg')"></div>
+      <p class="polaroid-cap">painting</p>
+      <p class="hobby-detail">since I was little</p>
+    </div>
+    <div class="polaroid hobby-card">
+      <div class="polaroid-img" style="background-image:url('images/anna-horse.jpg')"></div>
+      <p class="polaroid-cap">horse riding</p>
+      <p class="hobby-detail">since age 8</p>
+    </div>
+    <div class="polaroid hobby-card">
+      <div class="polaroid-img" style="background-image:url('images/hobby-gym.jpg')"></div>
+      <p class="polaroid-cap">the gym</p>
+      <p class="hobby-detail">started at 17</p>
+    </div>
+    <div class="polaroid hobby-card">
+      <div class="polaroid-img" style="background-image:url('images/anna-chess.jpg')"></div>
+      <p class="polaroid-cap">chess</p>
+      <p class="hobby-detail">started in 2024</p>
+    </div>
+    <div class="polaroid hobby-card">
+      <div class="polaroid-img" style="background-image:url('images/hobby-marathon.jpg')"></div>
+      <p class="polaroid-cap">half marathon</p>
+      <p class="hobby-detail">1st in 2025 · next in 2026</p>
+    </div>
   </div>
 </section>
 
