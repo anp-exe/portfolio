@@ -1403,8 +1403,8 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
 
 /* ─────────── chess easter egg toggle ─────────── */
 .chess-toggle{
-  position:fixed;
-  bottom:1.6rem;
+  position:absolute;
+  top:1.6rem;
   right:1.6rem;
   width:54px;
   height:54px;
@@ -1787,7 +1787,7 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
   .mini-card-img{width:64px;height:64px;font-size:1.8rem}
   .polaroid-main{width:240px}
   .polaroid-secondary{width:170px;left:auto;right:-20px;top:160px}
-  .chess-toggle{bottom:1rem;right:1rem;width:48px;height:48px;font-size:1.4rem}
+  .chess-toggle{top:1rem;right:1rem;width:48px;height:48px;font-size:1.4rem}
   .chess-toggle::before{display:none}
   .bouquet-toggle{bottom:1rem;left:1rem;width:48px;height:48px;font-size:1.4rem}
   .bouquet-toggle::before{display:none}
@@ -1895,6 +1895,7 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
     <h2 class="section-title">a data <em>story</em></h2>
   </div>
   <article class="featured-card">
+    <button class="chess-toggle" aria-label="Click for chess pieces">♟️</button>
     <!-- floating chess polaroid -->
     <div class="featured-polaroid">
       <div class="featured-polaroid-img" style="background-image:url('images/anna-chess.jpg')"></div>
@@ -2148,8 +2149,6 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
   made with <span class="heart">♡</span> in London, UK &nbsp;⋆｡˚
 </footer>
 
-<!-- floating chess easter egg toggle -->
-<button class="chess-toggle" aria-label="Click for chess pieces">♟️</button>
 
 
 <script>
