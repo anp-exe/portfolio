@@ -614,6 +614,79 @@ section{
   border-radius:6px;
 }
 
+/* ─────────── collectible trading card ─────────── */
+.tcard-block{
+  margin:3.5rem auto 0;
+  text-align:center;
+  position:relative;
+}
+.tcard-stage{
+  position:relative;
+  display:inline-block;
+  margin:0 auto;
+}
+.tcard-caption{
+  font-family:'Italianno', cursive;
+  font-size:1.7rem;
+  color:var(--ink);
+  margin-top:1.4rem;
+}
+.tcard-row{
+  display:flex;
+  justify-content:center;
+  align-items:flex-end;
+  gap:2.5rem;
+  flex-wrap:wrap;
+}
+.tcard-wrap{
+  display:inline-block;
+  animation:tcardFloat 5s ease-in-out infinite;
+}
+.tcard-wrap-2{
+  animation:tcardFloat2 5.6s ease-in-out infinite;
+  animation-delay:-0.8s;
+}
+.tcard{
+  width:255px;
+  max-width:78vw;
+  height:auto;
+  filter:drop-shadow(0 18px 30px rgba(217, 122, 144, 0.38));
+  transition:transform 0.5s ease, filter 0.5s ease;
+}
+.tcard-wrap:not(.tcard-wrap-2) .tcard{width:285px}
+.tcard:hover{
+  transform:scale(1.05);
+  filter:drop-shadow(0 24px 44px rgba(217, 122, 144, 0.55));
+}
+.tcard-kuromi{
+  position:absolute;
+  right:-66px;
+  bottom:-14px;
+  width:130px;
+  height:auto;
+  image-rendering:pixelated;
+  animation:kuromiBob 3s ease-in-out infinite;
+  filter:drop-shadow(0 8px 16px rgba(93, 63, 78, 0.25));
+}
+@keyframes tcardFloat{
+  0%,100%{transform:translateY(0) rotate(-2deg)}
+  50%{transform:translateY(-14px) rotate(-2deg)}
+}
+@keyframes tcardFloat2{
+  0%,100%{transform:translateY(0) rotate(2deg)}
+  50%{transform:translateY(-14px) rotate(2deg)}
+}
+@keyframes kuromiBob{
+  0%,100%{transform:translateY(0) rotate(0)}
+  50%{transform:translateY(-10px) rotate(-4deg)}
+}
+@media (max-width:600px){
+  .tcard{width:235px}
+  .tcard-wrap:not(.tcard-wrap-2) .tcard{width:262px}
+  .tcard-row{gap:1.5rem}
+  .tcard-kuromi{width:92px;right:-10px;bottom:-8px}
+}
+
 /* floating chess polaroid in the empty right side */
 .featured-polaroid{
   position:absolute;
@@ -1105,6 +1178,47 @@ body.dark .codedex-badge-logo{color:#fff}
 }
 .aws-badge:hover .aws-badge-link{
   transform:translateX(6px);
+}
+
+/* ─── clash of code legend badge ─── */
+.clash-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:0.85rem;
+  margin-top:1.6rem;
+  padding:0.6rem 1.15rem 0.6rem 0.6rem;
+  background:var(--cream);
+  border:1px solid var(--line);
+  border-radius:14px;
+  box-shadow:var(--shadow);
+  transition:transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+}
+.clash-badge:hover{
+  transform:translateY(-4px) rotate(-1.5deg);
+  box-shadow:0 18px 40px -10px rgba(217, 122, 144, 0.35);
+}
+.clash-badge-icon{
+  flex:none;
+  width:52px;height:52px;
+  border-radius:12px;
+  background:#e1664c;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.clash-badge:hover .clash-badge-icon{transform:rotate(-6deg) scale(1.06)}
+.clash-badge-icon svg{width:30px;height:30px}
+.clash-badge-text{display:flex;flex-direction:column;line-height:1.3}
+.clash-badge-title{
+  font-family:'Quicksand', sans-serif;
+  font-weight:700;
+  font-size:1rem;
+  color:var(--ink);
+}
+.clash-badge-level{
+  font-family:'Quicksand', sans-serif;
+  font-weight:700;
+  font-size:1rem;
+  color:#e1664c;
 }
 
 /* ─────────── contact ─────────── */
@@ -1783,6 +1897,20 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
         </div>
       </a>
     </div>
+    <div class="tcard-block">
+      <div class="tcard-stage">
+        <div class="tcard-row">
+          <div class="tcard-wrap">
+            <img class="tcard" src="images/melody-card.png" alt="My Little Melody trading card — White Rabbit, 100 HP, hobby baking, ability falling asleep" />
+          </div>
+          <div class="tcard-wrap tcard-wrap-2">
+            <img class="tcard" src="images/duck-card.png" alt="Baby Duck trading card — 100 HP, moves Sing, Intimidate, and Combust" />
+          </div>
+        </div>
+        <img class="tcard-kuromi" src="images/kuromi.png" alt="Kuromi resting on a pink cushion" />
+      </div>
+      <p class="tcard-caption">⋆ learning figma ⋆</p>
+    </div>
   </div>
 </section>
 
@@ -1849,6 +1977,27 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
         <span class="cert-chip">Python Codedex</span>
         <span class="cert-chip">MATLAB</span>
         <span class="cert-chip">GitHub Foundations</span>
+      </div>
+
+      <h3 style="margin-top:2.5rem">achievements ✿</h3>
+
+      <div class="clash-badge" aria-label="Clash of Code — Legend level coding speed">
+        <span class="clash-badge-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line x1="2" y1="13" x2="8" y2="13" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+            <line x1="2" y1="19" x2="8" y2="19" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+            <line x1="3" y1="25" x2="7" y2="25" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+            <line x1="20" y1="8" x2="20" y2="5" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+            <line x1="17" y1="4" x2="23" y2="4" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+            <circle cx="20" cy="19" r="9.5" stroke="#fff" stroke-width="2.4" fill="none"/>
+            <path d="M16.5 15 L20.5 19 L16.5 23" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="21.5" y1="23" x2="25" y2="23" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="clash-badge-text">
+          <span class="clash-badge-title">Clash of Code &middot; coding speed</span>
+          <span class="clash-badge-level">Legend level</span>
+        </span>
       </div>
     </div>
 
