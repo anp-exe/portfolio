@@ -987,6 +987,122 @@ body.dark .codedex-badge-logo{color:#fff}
 }
 .btn:hover .btn-arrow{transform:translateX(8px)}
 
+/* ─────────── featured carousel ─────────── */
+.featured-carousel{
+  position:relative;
+  max-width:1120px;
+  margin:0 auto;
+}
+.featured-viewport{
+  overflow:hidden;
+  padding:20px 4px 6px;
+}
+.featured-track{
+  display:flex;
+  align-items:stretch;            /* every slide stretches to the tallest = equal size */
+  transition:transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.featured-track > .featured-card{
+  flex:0 0 100%;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+}
+.featured-track > .featured-card .featured-cta{
+  margin-top:auto;               /* pin CTAs to the bottom so all cards line up */
+  padding-top:1.5rem;
+}
+.featured-arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:50px;height:50px;
+  border-radius:50%;
+  background:var(--cream);
+  border:1px solid var(--line);
+  box-shadow:var(--shadow);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Fraunces', serif;
+  font-size:1.6rem;
+  color:var(--pink-deep);
+  line-height:1;
+  cursor:none;
+  z-index:12;
+  transition:transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s, color 0.3s, opacity 0.3s;
+}
+.featured-arrow:hover{
+  transform:translateY(-50%) scale(1.12);
+  color:var(--ink);
+  box-shadow:0 10px 26px -6px rgba(217, 122, 144, 0.5);
+}
+.featured-arrow:disabled{
+  opacity:0.3;
+  pointer-events:none;
+}
+.featured-arrow-prev{left:-12px}
+.featured-arrow-next{right:-12px}
+.featured-dots{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:0.75rem;
+  margin-top:1.8rem;
+}
+.featured-dot{
+  width:11px;height:11px;
+  border-radius:50%;
+  padding:0;
+  background:rgba(217, 122, 144, 0.28);
+  border:none;
+  cursor:none;
+  transition:transform 0.3s, background 0.3s;
+}
+.featured-dot:hover{background:rgba(217, 122, 144, 0.55)}
+.featured-dot.active{
+  background:var(--pink-deep);
+  transform:scale(1.35);
+}
+.featured-counter{
+  text-align:center;
+  margin-top:0.9rem;
+  font-family:'Quicksand', sans-serif;
+  font-size:0.6rem;
+  letter-spacing:0.32em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+}
+/* text/emoji polaroids for cards without a photo */
+.featured-polaroid-stat{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:0.35rem;
+  text-align:center;
+  background:linear-gradient(160deg, rgba(233, 168, 184, 0.45), rgba(196, 179, 224, 0.45));
+}
+.pol-stat-num{
+  font-family:'Fraunces', serif;
+  font-style:italic;
+  font-size:3.4rem;
+  color:var(--pink-deep);
+  line-height:1;
+}
+.pol-stat-emoji{font-size:3rem;line-height:1}
+.pol-stat-label{
+  font-family:'Quicksand', sans-serif;
+  font-size:0.55rem;
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+}
+@media (max-width:900px){
+  .featured-arrow{width:42px;height:42px;font-size:1.3rem;background:rgba(253, 250, 245, 0.92)}
+  .featured-arrow-prev{left:2px}
+  .featured-arrow-next{right:2px}
+}
+body.dark .featured-arrow{background:var(--cream)}
+
 .more-projects{
   margin-top:5rem;
   text-align:center;
@@ -1885,7 +2001,7 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
   </ul>
   <ul class="nav-links">
     <li><a href="#about">about</a></li>
-    <li><a href="#featured">project</a></li>
+    <li><a href="#featured">projects</a></li>
     <li><a href="#credentials">credentials</a></li>
     <li><a href="#contact">contact</a></li>
     <li><button class="theme-toggle" aria-label="Toggle theme">☾</button></li>
@@ -1959,9 +2075,14 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
 <!-- featured project -->
 <section class="featured reveal" id="featured">
   <div class="featured-header">
-    <p class="eyebrow">⋆ featured project</p>
+    <p class="eyebrow">⋆ featured projects</p>
     <h2 class="section-title">a data <em>story</em></h2>
   </div>
+  <div class="featured-carousel">
+    <div class="featured-viewport">
+      <div class="featured-track">
+
+  <!-- slide 1: women in chess -->
   <article class="featured-card">
     <button class="chess-toggle" aria-label="Click for chess pieces">♟️</button>
     <!-- floating chess polaroid -->
@@ -2017,6 +2138,128 @@ footer .heart{color:var(--pink-deep);display:inline-block;animation:beat 1.5s ea
       <a class="btn" href="https://github.com/anp-exe/fide-rating_analysisV2" target="_blank" rel="noopener">view code <span class="btn-arrow">→</span></a>
     </div>
   </article>
+
+  <!-- slide 2: codedex monthly challenge -->
+  <article class="featured-card">
+    <!-- floating slop-score polaroid -->
+    <div class="featured-polaroid">
+      <div class="featured-polaroid-img" style="background-image:url('https://raw.githubusercontent.com/anp-exe/detect-ai-slop-tutorial/main/samples/1_certified_artisanal_slop.png')"></div>
+      <p class="featured-polaroid-cap">certified artisanal slop</p>
+    </div>
+    <a class="codedex-badge" href="https://github.com/anp-exe/detect-ai-slop-tutorial" target="_blank" rel="noopener" aria-label="Codédex monthly challenge">
+      <span class="codedex-badge-logo">Cod&eacute;dex</span>
+      <span class="codedex-badge-pill">Monthly Challenge</span>
+    </a>
+    <p class="featured-eyebrow">2026 ⋆ ai tutorial ⋆ python &middot; hugging face</p>
+    <h3 class="featured-title">ai slop detector <em>using HF</em></h3>
+    <p class="featured-subtitle">a python tool that reads any linkedin post and scores how much it reeks of AI slop, then saves it as a shareable card.</p>
+
+    <div class="featured-stats">
+      <div>
+        <div class="stat-num">50/50</div>
+        <div class="stat-label">Rules vs<br>AI scoring</div>
+      </div>
+      <div>
+        <div class="stat-num">~14h</div>
+        <div class="stat-label">Build time<br>(WakaTime)</div>
+      </div>
+      <div>
+        <div class="stat-num">0-shot</div>
+        <div class="stat-label">Hugging Face<br>classifier</div>
+      </div>
+      <div>
+        <div class="stat-num">/100</div>
+        <div class="stat-label">Transparent<br>slop score</div>
+      </div>
+    </div>
+
+    <p class="featured-body">My entry for the Codédex monthly challenge. After scrapping an AI chess coach idea, the internship hunt sent me to LinkedIn, where the feed was wall to wall AI slop. So I built a detector: a deliberate 50/50 split between transparent rules and a zero-shot Hugging Face model (bart-large-mnli), with an optional shareable score card drawn in Pillow.</p>
+
+    <blockquote class="featured-quote">
+      don't over-rely on AI to fix your bug. it is an assistive tool, not a programmer. trash in = trash out.
+    </blockquote>
+
+    <p class="featured-accolade">✦ Built in roughly 14 hours, plus a crash course in Figma to design the shareable trading cards from scratch. ✦</p>
+
+    <div class="featured-tools">
+      <span class="tool-chip">python</span>
+      <span class="tool-chip">hugging face</span>
+      <span class="tool-chip">bart-large-mnli</span>
+      <span class="tool-chip">pillow</span>
+      <span class="tool-chip">figma</span>
+    </div>
+
+    <div class="featured-cta">
+      <a class="btn" href="https://github.com/anp-exe/detect-ai-slop-tutorial/blob/main/TUTORIAL.md" target="_blank" rel="noopener">the tutorial <span class="btn-arrow">→</span></a>
+      <a class="btn" href="https://github.com/anp-exe/detect-ai-slop-tutorial" target="_blank" rel="noopener">view code <span class="btn-arrow">→</span></a>
+    </div>
+  </article>
+
+  <!-- slide 3: care leavers -->
+  <article class="featured-card">
+    <!-- floating 2% polaroid -->
+    <div class="featured-polaroid">
+      <div class="featured-polaroid-img" style="background-image:url('https://anp-exe.github.io/care-leaver-analysis-he/01-gap-selective.png')"></div>
+      <p class="featured-polaroid-cap">rarer than a millionaire</p>
+    </div>
+    <a class="codedex-badge" href="https://www.codedex.io/community/project-showcase/31tp5l0bh3SlebTxa2kK" target="_blank" rel="noopener" aria-label="Featured on Codédex">
+      <span class="codedex-badge-logo">Cod&eacute;dex</span>
+      <span class="codedex-badge-pill">Data Story</span>
+    </a>
+    <p class="featured-eyebrow">2026 ⋆ data journalism ⋆ python &middot; next.js</p>
+    <h3 class="featured-title">care leavers <em>2%</em></h3>
+    <p class="featured-subtitle">a person in the UK is likelier to be a millionaire than a care leaver is to reach a top university. an interactive data story.</p>
+
+    <div class="featured-stats">
+      <div>
+        <div class="stat-num">2%</div>
+        <div class="stat-label">Reach a high<br>tariff uni by 19</div>
+      </div>
+      <div>
+        <div class="stat-num">3.5×</div>
+        <div class="stat-label">Peers' lead<br>into any HE</div>
+      </div>
+      <div>
+        <div class="stat-num">+64%</div>
+        <div class="stat-label">Applicant growth<br>2018–22</div>
+      </div>
+      <div>
+        <div class="stat-num">8,930</div>
+        <div class="stat-label">Care applicants<br>in 2022</div>
+      </div>
+    </div>
+
+    <p class="featured-body">An interactive scrollytelling story built from two public UK datasets: the DfE's Widening Participation statistics and UCAS care-experienced applicant data. More care leavers reach university than ever, yet the gap with everyone else widens the higher you look. 13% vs 46% overall collapses to just 2% vs 13% at the most selective institutions.</p>
+
+    <blockquote class="featured-quote">
+      the gap does not narrow as you climb toward the most selective universities. it widens to a chasm.
+    </blockquote>
+
+    <p class="featured-accolade">✦ A personal project and a personal story, told through 12 figures on one consistent palette, built from public DfE and UCAS data. ✦</p>
+
+    <div class="featured-tools">
+      <span class="tool-chip">python</span>
+      <span class="tool-chip">pandas</span>
+      <span class="tool-chip">matplotlib</span>
+      <span class="tool-chip">seaborn</span>
+      <span class="tool-chip">next.js</span>
+      <span class="tool-chip">tailwind</span>
+    </div>
+
+    <div class="featured-cta">
+      <a class="btn" href="https://anp-exe.github.io/care-leaver-analysis-he/" target="_blank" rel="noopener">read the story <span class="btn-arrow">→</span></a>
+      <a class="btn" href="https://github.com/anp-exe/care-leaver-analysis-he" target="_blank" rel="noopener">view code <span class="btn-arrow">→</span></a>
+    </div>
+  </article>
+
+      </div>
+    </div>
+    <button class="featured-arrow featured-arrow-prev" aria-label="Previous project">&lsaquo;</button>
+    <button class="featured-arrow featured-arrow-next" aria-label="Next project">&rsaquo;</button>
+    <div class="featured-dots" aria-label="Project navigation"></div>
+    <p class="featured-counter"></p>
+  </div>
+
   <div class="more-projects">
     <p class="more-projects-label">⋆ also recently</p>
     <div class="mini-grid">
@@ -2336,6 +2579,55 @@ document.addEventListener('keydown', (e) => {
 
 /* ─────── click trigger for chess egg ─────── */
 document.querySelector('.chess-toggle').addEventListener('click', triggerChessEgg);
+
+/* ─────── featured projects carousel ─────── */
+(function setupFeaturedCarousel(){
+  const track = document.querySelector('.featured-track');
+  if(!track) return;
+  const slides = Array.from(track.children);
+  const prev = document.querySelector('.featured-arrow-prev');
+  const next = document.querySelector('.featured-arrow-next');
+  const dotsWrap = document.querySelector('.featured-dots');
+  const counter = document.querySelector('.featured-counter');
+  let i = 0;
+
+  // build dots
+  slides.forEach((_, idx) => {
+    const d = document.createElement('button');
+    d.className = 'featured-dot' + (idx === 0 ? ' active' : '');
+    d.setAttribute('aria-label', 'Go to project ' + (idx + 1));
+    d.addEventListener('click', () => go(idx));
+    d.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+    d.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    dotsWrap.appendChild(d);
+  });
+  const dots = Array.from(dotsWrap.children);
+  const pad = (n) => String(n).padStart(2, '0');
+
+  function go(n){
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    track.style.transform = 'translateX(-' + (i * 100) + '%)';
+    dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+    if(prev) prev.disabled = i === 0;
+    if(next) next.disabled = i === slides.length - 1;
+    if(counter) counter.textContent = pad(i + 1) + ' / ' + pad(slides.length);
+  }
+
+  if(prev) prev.addEventListener('click', () => go(i - 1));
+  if(next) next.addEventListener('click', () => go(i + 1));
+
+  // swipe on touch devices
+  let startX = null;
+  track.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend', (e) => {
+    if(startX === null) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    if(Math.abs(dx) > 50){ dx < 0 ? go(i + 1) : go(i - 1); }
+    startX = null;
+  }, { passive: true });
+
+  go(0);
+})();
 
 /* ─────── about-section daisies: drag to move ─────── */
 (function setupAboutDaisies(){
